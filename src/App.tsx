@@ -20,8 +20,8 @@ function App() {
         </button>
       </div>
       {counterList.map((counter, id) => (
-        < div className="card data-table" key={id}>
-          <p>{counter.id}</p>
+        < div className="card" key={id}>
+          <p>{id}</p>
           <p>{counter.name}</p>
           <p>{counter.lock ? "locked" : "unlocked"}</p>
           <p>{counter.count}</p>
@@ -47,14 +47,19 @@ function App() {
           }
           {
             counter.lock ?
-              <button onClick={() => dispatch(unlock(counter.name))}>
-                Unlock
-              </button> :
-              <button onClick={() => dispatch(lock(counter.name))}>
-                Lock
-              </button>
+              <div>
+                <button onClick={() => dispatch(unlock(counter.name))}>
+                  Unlock
+                </button>
+                <button disabled>Delete</button>
+              </div> :
+              <div>
+                <button onClick={() => dispatch(lock(counter.name))}>
+                  Lock
+                </button>
+                <button onClick={() => dispatch(deleteCounter(counter.name))}>Delete</button>
+              </div>
           }
-          <button onClick={() => dispatch(deleteCounter(counter.name))}>Delete</button>
         </div>
       ))
       }
