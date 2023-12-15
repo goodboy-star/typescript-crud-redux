@@ -19,14 +19,9 @@
   gap: 20px;
 }
 
-.data-table {
-  display: inline-flex;
-}
-
 .read-the-docs {
   color: #888;
 }
-
 
 div>button {
   margin-top: 10px;

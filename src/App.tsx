@@ -3,7 +3,7 @@ import hopsLogo from "../public/teknoir.jpg";
 import "./App.css";
 import type { RootState } from "./store";
 import { useSelector, useDispatch } from "react-redux";
-import { decrement, increment, lock, unlock, addCounter } from "./slice/counterSlice";
+import { decrement, increment, lock, unlock, addCounter, deleteCounter } from "./slice/counterSlice";
 
 function App() {
 
@@ -19,16 +19,18 @@ function App() {
           Add Counter
         </button>
       </div>
-      {counterList.map(counter => (
-        < div className="card data-table" >
+      {counterList.map((counter, id) => (
+        < div className="card data-table" key={id}>
+          <p>{counter.id}</p>
           <p>{counter.name}</p>
           <p>{counter.lock ? "locked" : "unlocked"}</p>
           <p>{counter.count}</p>
           {
             counter.lock ?
-              <div><button disabled>
-                Increase
-              </button>
+              <div>
+                <button disabled>
+                  Increase
+                </button>
                 <button disabled>
                   Decrease
                 </button>
@@ -52,6 +54,7 @@ function App() {
                 Lock
               </button>
           }
+          <button onClick={() => dispatch(deleteCounter(counter.name))}>Delete</button>
         </div>
       ))
       }

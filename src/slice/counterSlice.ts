@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { PayloadAction } from '@reduxjs/toolkit'
 
 export interface CounterState {
+    id: number,
     count: number,
     lock: boolean,
     name: string
@@ -38,16 +39,22 @@ export const counterSlice = createSlice({
             )
         },
         addCounter: (state, action: PayloadAction<string>) => {
-            const newCounter: CounterState = {
-                name: action.payload,
-                count: 0,
-                lock: false
-            };
-            state.counterList = [...state.counterList, newCounter]
+            const existingCounter = state.counterList.find(counter => counter.name === action.payload);
+            if (!existingCounter) {
+                state.counterList.push({
+                    id: state.counterList.length + 1,
+                    count: 0,
+                    lock: false,
+                    name: action.payload
+                });
+            }
+        },
+        deleteCounter: (state, action: PayloadAction<string>) => {
+            state.counterList = state.counterList.filter(counter => counter.name !== action.payload)
         },
     },
 })
 
-export const { increment, decrement, lock, unlock, addCounter } = counterSlice.actions
+export const { increment, decrement, lock, unlock, addCounter, deleteCounter } = counterSlice.actions
 
 export default counterSlice.reducer
